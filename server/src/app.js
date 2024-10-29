@@ -18,8 +18,11 @@ app.use(cookieParser())
 
 //routes
 import userRouter from "./routes/user.routes.js";
-
+import ticketRoutes from "./routes/ticket.routes.js";
+import noteRoutes from "./routes/note.routes.js";
 app.use("/api/v1/users", userRouter);
+app.use("/api/tickets", ticketRoutes);
+app.use("/api/notes", noteRoutes);
 
 //https://localhost:8000/api/v1/users/register
 export {app}

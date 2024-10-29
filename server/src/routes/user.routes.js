@@ -9,6 +9,7 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   getCurrentUser,
+  getAllUsers
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 const router = Router();
@@ -25,4 +26,7 @@ router.route("/update-account").patch(verifyJWT, updateAccountDetails);
 router
   .route("/avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
+
+  // Admin-only route
+router.get("/users", verifyJWT, authorize("admin"), getAllUsers);
 export default router;
