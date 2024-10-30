@@ -293,7 +293,7 @@ const updateUserDetails = asyncHandler(async (req, res) => {
     throw new ApiError(404, "User not found");
 
   }
-  if (!fullName || !email) {
+  if (!username || !email) {
     throw new ApiError(400, "All fields are required");
   }
 
