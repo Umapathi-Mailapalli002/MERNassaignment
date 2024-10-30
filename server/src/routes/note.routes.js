@@ -1,11 +1,11 @@
 import express from "express";
-import { addNote, getNotesForTicket } from "../controllers/noteController.js";
-import { authenticate, authorize } from "../middlewares/authMiddleware.js";
+import { addNote, getNotesForTicket } from "../controllers/note.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 // Routes for adding and viewing notes on a ticket
-router.post("/:ticketId", authenticate, authorize("customer", "agent", "admin"), addNote);
-router.get("/:ticketId", authenticate, authorize("customer", "agent", "admin"), getNotesForTicket);
+router.post("/:ticketId", verifyJWT,addNote);
+router.get("/:ticketId", verifyJWT,  getNotesForTicket);
 
 export default router;

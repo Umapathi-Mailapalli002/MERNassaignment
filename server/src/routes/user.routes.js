@@ -28,5 +28,5 @@ router
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
   // Admin-only route
-router.get("/users", verifyJWT, authorize("admin"), getAllUsers);
+router.get("/users", verifyJWT, getAllUsers);
 export default router;
