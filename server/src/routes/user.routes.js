@@ -30,6 +30,6 @@ router
 
   // Admin-only route
 router.route("/all-users").get( verifyJWT,authorizedRole(["Admin"]), getAllUsers);
-router.route("/change-role/:userId").get( verifyJWT,authorizedRole(["Admin"]), changeRoleOFUser);
+router.route("/change-role/:userId").patch( verifyJWT,authorizedRole(["Admin"]), changeRoleOFUser);
 
 export default router;

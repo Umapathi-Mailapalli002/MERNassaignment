@@ -269,8 +269,9 @@ const getAllUsers = asyncHandler(async (req, res) => {
       .json(new ApiResponse(200, users, "Users retrieved successfully"));
 });
 const changeRoleOFUser = asyncHandler( asyncHandler(async(req, res) => {
-const userId = req.user._id;
-  const role = req.body;
+const userId = req.params.userId;
+console.log(userId)
+  const {role} = req.body;
   const changedRole = await User.findByIdAndUpdate(userId, {
     $set: {
       role,
