@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { authorizedRole, verifyJWT } from "../middlewares/auth.middleware.js";
 import {
   logInUser,
   logoutUser,
@@ -20,13 +20,13 @@ router.route("/login").post(logInUser);
 //secured routes
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
-router.route("/change-password").post(verifyJWT, changeCurrentPassword);
-router.route("/current-user").get(verifyJWT, getCurrentUser);
-router.route("/update-account").patch(verifyJWT, updateAccountDetails);
+router.route("/change-password").post(verifyJWT,authorizedRole(["Customer","Admin"]), changeCurrentPassword);
+router.route("/current-user").get(verifyJWT, authorizedRole(["Customer","CustomerServiceAgent","Admin"]), getCurrentUser);
+router.route("/update-account").patch(verifyJWT,authorizedRole(["Customer","Admin"]), updateAccountDetails);
 router
   .route("/avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
   // Admin-only route
-router.get("/users", verifyJWT, getAllUsers);
+router.route("/all-users").get( verifyJWT,authorizedRole(["Admin"]), getAllUsers);
 export default router;

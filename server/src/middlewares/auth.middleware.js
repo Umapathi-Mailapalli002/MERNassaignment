@@ -20,8 +20,30 @@ export const verifyJWT = asyncHandler(async(req, _,next) => {
    }
  
    req.user = user;
+   
    next()
    } catch (error) {
     throw new ApiError(401, error?.message || "Invalid access token")
    }
 })
+
+
+// roleMiddleware.js
+
+
+export const authorizedRole = (allowedRoles) => 
+  asyncHandler(async (req, res, next) => {
+    try {
+      const  role  = req.user?.role;
+        
+      if (!allowedRoles.includes(role)) {
+        return res.status(403).json({ message: "Forbidden: Access Denied" });
+      }
+      next(); 
+
+    } catch (error) {
+      throw new ApiError(401, error?.message || "Invalid access token")
+
+    }
+
+  });

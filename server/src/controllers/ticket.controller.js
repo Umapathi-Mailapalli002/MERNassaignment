@@ -5,13 +5,13 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 
 const createTicket = asyncHandler(async (req, res) => {
     const { title } = req.body;
-    const customer = req.user._id;
+    const user = req.user._id;
 
     if (!title) {
         throw new ApiError(400, "Ticket title is required");
     }
 
-    const ticket = await Ticket.create({ title, customer });
+    const ticket = await Ticket.create({ title, user });
     if (!ticket) {
         throw new ApiError(500, "Error while creating ticket");
     }

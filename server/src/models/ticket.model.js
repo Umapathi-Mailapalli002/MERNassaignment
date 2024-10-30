@@ -22,10 +22,6 @@ const ticketSchema = new Schema(
       ref: "User",
       required: true,
     },
-    assignedAgent: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
     lastUpdatedOn: {
       type: Date,
       default: Date.now,
