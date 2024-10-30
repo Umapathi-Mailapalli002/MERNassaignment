@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { signup, loginUser } from '../../public/api.js';
+import { signup, loginUser } from '../../api/api.js';
 
 const AuthPage = () => {
   const { register, handleSubmit, reset } = useForm();

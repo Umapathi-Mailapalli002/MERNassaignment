@@ -1,18 +1,18 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { Route, Navigate } from 'react-router-dom';
+import { useAuth } from '../contextApi/AuthContext';
 
-const ProtectedRoute = ({ component: Component, requiredRole, ...rest }) => {
+const ProtectedRoute = ({ element, requiredRole, ...rest }) => {
   const { auth } = useAuth();
 
   return (
     <Route
       {...rest}
-      render={(props) =>
+      element={
         auth.isAuthenticated && (!requiredRole || auth.userRole === requiredRole) ? (
-          <Component {...props} />
+          element 
         ) : (
-          <Redirect to="/login" />
+          <Navigate to="/login" replace /> 
         )
       }
     />

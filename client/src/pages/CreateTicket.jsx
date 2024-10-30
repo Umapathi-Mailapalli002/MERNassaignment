@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { createTicket } from '../api/ticketApi';
+import { createTicket } from '../../api/api.js';
 
 const CreateTicket = () => {
   const { register, handleSubmit, reset } = useForm();

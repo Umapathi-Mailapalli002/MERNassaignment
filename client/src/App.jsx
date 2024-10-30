@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
-import ProtectedRoute from './ProtectedRoute';
+import { AuthProvider } from './contextApi/AuthContext';
+import ProtectedRoute from './routes/ProtectedRoutes';
 import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
-import TicketDetails from './pages/TicketDetails';
+import TicketDetails from './components/TicketDetails';
 import CreateTicket from './pages/CreateTicket';
 import MyTickets from './pages/MyTickets';
 import Account from './pages/Account';

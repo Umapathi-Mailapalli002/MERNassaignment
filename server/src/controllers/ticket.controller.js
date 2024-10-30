@@ -30,7 +30,26 @@ const getAllTickets = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, tickets, "Tickets retrieved successfully"));
 });
-
+const getMyTickets = asyncHandler(async(req, res) => {
+    const user = req.user?._id;
+    const tickets = await Ticket.find({user: user});
+    if (!tickets.length) {
+        throw new ApiError(404, "No tickets found");
+    }
+    return res
+        .status(200)
+        .json(new ApiResponse(200, tickets, "Tickets retrieved successfully"));
+})
+const getTicket = asyncHandler(async(req, res) => {
+    const ticketId = req.params.ticketId;
+    const tickets = await Ticket.findById(ticketId);
+    if (!tickets.length) {
+        throw new ApiError(404, "No tickets found");
+    }
+    return res
+        .status(200)
+        .json(new ApiResponse(200, tickets, "Ticket retrieved successfully"));
+})
 const updateTicketStatus = asyncHandler(async (req, res) => {
     const { status } = req.body;
     const { ticketId } = req.params;
@@ -52,5 +71,7 @@ const updateTicketStatus = asyncHandler(async (req, res) => {
 export {
     createTicket,
     getAllTickets,
-    updateTicketStatus
+    updateTicketStatus,
+    getMyTickets,
+    getTicket
 };

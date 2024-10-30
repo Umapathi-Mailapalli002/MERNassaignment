@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { updateAccount } from '../api/userApi';
+import { updateAccount } from '../../api/api.js';
 
 const Account = () => {
   const { register, handleSubmit } = useForm();

@@ -23,7 +23,10 @@ const DELETE_USER_URL = "/delete-user";
 // Ticket URLs
 const CREATE_TICKET_URL = "/create-ticket";
 const GET_ALL_TICKETS_URL = "/all-tickets";
+const GET_ALL_CUSTOMER_TICKETS_URL = "/all-tickets";
 const UPDATE_TICKET_STATUS_URL = "/status";
+const GET_TICKET_URL = "/get-ticket";
+
 
 // Note URLs
 const CREATE_NOTE_URL = "/create-note";
@@ -188,6 +191,27 @@ export const getAllTickets = async (token) => {
     return res.data;
   } catch (error) {
     console.log("Error on fetching all tickets", error);
+    throw error;
+  }
+};
+// Method to fetch all tickets for a customer
+export const getMyTickets = async (token) => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}${GET_ALL_CUSTOMER_TICKETS_URL}`, authHeaders(token));
+      return res.data;
+    } catch (error) {
+      console.log("Error on fetching all customer tickets", error);
+      throw error;
+    }
+  };
+
+  // Method to fetch a specific ticket by ID
+export const getTicketById = async (ticketId, token) => {
+  try {
+    const res = await axios.get(`${API_BASE_URL}${GET_TICKET_URL}/${ticketId}`, authHeaders(token));
+    return res.data;
+  } catch (error) {
+    console.log("Error on fetching the ticket", error);
     throw error;
   }
 };
