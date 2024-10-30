@@ -5,7 +5,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 // Routes for adding and viewing notes on a ticket
-router.route("/:ticketId").post( verifyJWT,addNote);
-router.route("/:ticketId").get( verifyJWT,  getNotesForTicket);
+router.route("/:ticketId/create-note").post( verifyJWT,addNote);
+router.route("/:ticketId/all-notes").get( verifyJWT,  getNotesForTicket);
 
 export default router;

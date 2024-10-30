@@ -17,7 +17,7 @@ const ticketSchema = new Schema(
       enum: ["Active", "Pending", "Closed"],
       default: "Active",
     },
-    customer: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

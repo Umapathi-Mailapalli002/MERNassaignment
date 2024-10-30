@@ -5,10 +5,10 @@ import { verifyJWT,authorizedRole } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 // Customer routes
-router.route("/create").post( verifyJWT,authorizedRole(["Customer","CustomerServiceAgent","Admin"]), createTicket);
+router.route("/create-ticket").post( verifyJWT, createTicket);
 
 // Common routes for agents and admins to view tickets
-router.route("/").get( verifyJWT,authorizedRole(["CustomerServiceAgent","Admin"]), getAllTickets);
+router.route("/all-tickets").get( verifyJWT,authorizedRole(["CustomerServiceAgent","Admin"]), getAllTickets);
 router.route("/:ticketId/status").patch(verifyJWT, authorizedRole(["CustomerServiceAgent","Admin"]), updateTicketStatus);
 
 export default router;

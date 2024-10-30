@@ -4,14 +4,14 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 
 const createTicket = asyncHandler(async (req, res) => {
-    const { title } = req.body;
+    const { title, description } = req.body;
     const user = req.user._id;
 
-    if (!title) {
-        throw new ApiError(400, "Ticket title is required");
+    if (!title && !description) {
+        throw new ApiError(400, "Ticket title and description is required");
     }
 
-    const ticket = await Ticket.create({ title, user });
+    const ticket = await Ticket.create({ title,description, user });
     if (!ticket) {
         throw new ApiError(500, "Error while creating ticket");
     }
@@ -22,7 +22,7 @@ const createTicket = asyncHandler(async (req, res) => {
 });
 
 const getAllTickets = asyncHandler(async (req, res) => {
-    const tickets = await Ticket.find().populate("customer", "username");
+    const tickets = await Ticket.find().populate("user", "username");
     if (!tickets.length) {
         throw new ApiError(404, "No tickets found");
     }
