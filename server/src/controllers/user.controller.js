@@ -209,9 +209,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
-  const { fullName, email } = req.body;
+  const { username, email } = req.body;
 
-  if (!fullName || !email) {
+  if (!username || !email) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -260,7 +260,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 
 //only admin can see this
 const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find();
+  const users = await User.find({role:["Customer", "CustomerServiceAgent"]});
   if (!users.length) {
       throw new ApiError(404, "No users found");
   }
@@ -270,8 +270,11 @@ const getAllUsers = asyncHandler(async (req, res) => {
 });
 const changeRoleOFUser = asyncHandler( asyncHandler(async(req, res) => {
 const userId = req.params.userId;
-console.log(userId)
   const {role} = req.body;
+  if (!userId) {
+    throw new ApiError(404, "User not found");
+
+  }
   const changedRole = await User.findByIdAndUpdate(userId, {
     $set: {
       role,
@@ -282,6 +285,44 @@ return res
       .status(200)
       .json(new ApiResponse(200, changedRole, "User role changed successfully"));
 }))
+
+const updateUserDetails = asyncHandler(async (req, res) => {
+  const { username, email } = req.body;
+  const userId = req.params.userId;
+  if (!userId) {
+    throw new ApiError(404, "User not found");
+
+  }
+  if (!fullName || !email) {
+    throw new ApiError(400, "All fields are required");
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: {
+        username,
+        email,
+      },
+    },
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedUser, "User details updated successfully"));
+});
+const deleteUser = asyncHandler(async(req, res) => {
+  const userId = req.params.userId;
+
+  if (!userId) {
+    throw new ApiError(404, "User not found");
+  }
+  const deletedUser = await User.findByIdAndDelete(userId);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, deletedUser, "User deleted successfully"));
+})
 export {
   registerUser,
   logInUser,
@@ -292,5 +333,7 @@ export {
   updateUserAvatar,
   updateAccountDetails,
   getAllUsers,
-  changeRoleOFUser
+  changeRoleOFUser,
+  updateUserDetails,
+  deleteUser
 };
