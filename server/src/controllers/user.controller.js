@@ -44,6 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     username: username.toLowerCase(),
+    
   });
 
   const createdUser = await User.findById(user._id).select(
@@ -267,6 +268,19 @@ const getAllUsers = asyncHandler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, users, "Users retrieved successfully"));
 });
+const changeRoleOFUser = asyncHandler( asyncHandler(async(req, res) => {
+const userId = req.user._id;
+  const role = req.body;
+  const changedRole = await User.findByIdAndUpdate(userId, {
+    $set: {
+      role,
+    }
+  },
+{new: true});
+return res
+      .status(200)
+      .json(new ApiResponse(200, changedRole, "User role changed successfully"));
+}))
 export {
   registerUser,
   logInUser,
@@ -276,5 +290,6 @@ export {
   getCurrentUser,
   updateUserAvatar,
   updateAccountDetails,
-  getAllUsers
+  getAllUsers,
+  changeRoleOFUser
 };
