@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 
 function NewTicketForm() {
-  const [subject, setSubject] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const handleSubmit = (e) => {
@@ -16,7 +16,7 @@ function NewTicketForm() {
         <label className="block text-sm font-medium mb-2">Subject</label>
         <input
           type="text"
-          value={subject}
+          value={title}
           onChange={(e) => setSubject(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg"
         />

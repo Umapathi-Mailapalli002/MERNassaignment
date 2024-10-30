@@ -6,14 +6,11 @@ function Tickets() {
   const [tickets, setTickets] = useState([]);
   const [showNewTicketForm, setShowNewTicketForm] = useState(false);
 
-  // Mock data fetch for tickets
   useEffect(() => {
     const fetchTickets = async () => {
-      // Simulate fetching tickets from backend
       const data = [
         { id: '001', title: 'Payment issue', status: 'Active', customerName: 'John Doe', lastUpdated: '2024-10-01' },
         { id: '002', title: 'Login issue', status: 'Pending', customerName: 'Jane Smith', lastUpdated: '2024-10-05' },
-        // Add more tickets as needed
       ];
       setTickets(data);
     };

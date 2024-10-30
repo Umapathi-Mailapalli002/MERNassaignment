@@ -1,24 +1,47 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
+import ProtectedRoute from './ProtectedRoute';
+import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
-import Tickets from './pages/Tickets';
-import Customers from './pages/Customers';
+import TicketDetails from './pages/TicketDetails';
+import CreateTicket from './pages/CreateTicket';
+import MyTickets from './pages/MyTickets';
+import Account from './pages/Account';
 
-function App() {
+const App = () => {
   return (
-    <div className="flex">
+    <AuthProvider>
       <Router>
-        <Sidebar />
-        <div className="flex-grow p-6">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/tickets" element={<Tickets />} />
-            <Route path="/customers" element={<Customers />} />
-          </Routes>
-        </div>
+        <Switch>
+          {/* Public routes */}
+          <Route exact path="/login" component={AuthPage} />
+          <Route exact path="/signup" component={AuthPage} />
+
+          {/* General user routes */}
+          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/my-tickets" component={MyTickets} />
+          <ProtectedRoute exact path="/create-ticket" component={CreateTicket} />
+          <ProtectedRoute exact path="/ticket/:ticketId" component={TicketDetails} />
+          <ProtectedRoute exact path="/account" component={Account} />
+
+          {/* Customer Service Agent and Admin routes */}
+          <ProtectedRoute
+            exact
+            path="/all-tickets"
+            component={AllTickets}
+            requiredRole="CustomerServiceAgent"
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/dashboard"
+            component={Dashboard}
+            requiredRole="Admin"
+          />
+        </Switch>
       </Router>
-    </div>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

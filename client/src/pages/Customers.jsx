@@ -3,14 +3,11 @@ import React, { useState, useEffect } from 'react';
 function Customers() {
   const [customers, setCustomers] = useState([]);
 
-  // Mock data fetch for customers
   useEffect(() => {
     const fetchCustomers = async () => {
-      // Simulate fetching customers from backend
       const data = [
         { id: 'C001', name: 'John Doe', email: 'john@example.com', tickets: 5 },
         { id: 'C002', name: 'Jane Smith', email: 'jane@example.com', tickets: 3 },
-        // Add more customers as needed
       ];
       setCustomers(data);
     };
