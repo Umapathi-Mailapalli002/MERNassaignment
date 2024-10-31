@@ -16,17 +16,9 @@ function Customers() {
         console.error("Error fetching customers:", error);
       }
     };
-    const fetchTickets = async () => {
-      try {
-        const ticketsData = await getAllTickets(token);
-        setTickets(ticketsData.data);
-      } catch (error) {
-        console.error("Error fetching tickets:", error);
-      }
-    };
+   
     if (token) {
       fetchCustomers();
-      fetchTickets();
     }
   }, []);
 
@@ -39,7 +31,6 @@ function Customers() {
             <th className="py-2 px-4 border-b">Customer ID</th>
             <th className="py-2 px-4 border-b">Name</th>
             <th className="py-2 px-4 border-b">Email</th>
-            <th className="py-2 px-4 border-b">Tickets</th>
           </tr>
         </thead>
         <tbody>
@@ -48,7 +39,6 @@ function Customers() {
               <td className="py-2 px-4 border-b">{customer._id}</td>
               <td className="py-2 px-4 border-b">{customer.username}</td>
               <td className="py-2 px-4 border-b">{customer.email}</td>
-              <td className="py-2 px-4 border-b text-center">{customer.tickets.username}</td>
             </tr>
           ))}
         </tbody>
