@@ -1,47 +1,42 @@
+// /src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { AuthProvider } from './contextApi/AuthContext';
-import ProtectedRoute from './routes/ProtectedRoutes';
-import AuthPage from './pages/AuthPage';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
-import TicketDetails from './components/TicketDetails';
-import CreateTicket from './pages/CreateTicket';
-import MyTickets from './pages/MyTickets';
-import Account from './pages/Account';
+import AccountPage from './pages/AccountPage';
+import TicketForm from './components/TicketForm';
+import TicketDetailsPage from './pages/TicketDetailsPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
+import MyTicketsPage from './pages/MyTicketsPage';
+import ProtectedRoutes from './routes/ProtectedRoutes';
+import { AuthProvider } from './contextApi/AuthContext'; // Ensure this matches your export
 
-const App = () => {
+function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Switch>
-          {/* Public routes */}
-          <Route exact path="/login" component={AuthPage} />
-          <Route exact path="/signup" component={AuthPage} />
+    <Router>
+      <AuthProvider>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
-          {/* General user routes */}
-          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-          <ProtectedRoute exact path="/my-tickets" component={MyTickets} />
-          <ProtectedRoute exact path="/create-ticket" component={CreateTicket} />
-          <ProtectedRoute exact path="/ticket/:ticketId" component={TicketDetails} />
-          <ProtectedRoute exact path="/account" component={Account} />
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/create-ticket" element={<TicketForm />} />
+            <Route path="/tickets/:ticketId" element={<TicketDetailsPage />} />
+            <Route path="/change-password" element={<ChangePasswordPage />} />
+            <Route path="/my-tickets" element={<MyTicketsPage />} />
+          </Route>
 
-          {/* Customer Service Agent and Admin routes */}
-          <ProtectedRoute
-            exact
-            path="/all-tickets"
-            component={AllTickets}
-            requiredRole="CustomerServiceAgent"
-          />
-          <ProtectedRoute
-            exact
-            path="/admin/dashboard"
-            component={Dashboard}
-            requiredRole="Admin"
-          />
-        </Switch>
-      </Router>
-    </AuthProvider>
+          {/* Redirect to login for unknown paths */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </AuthProvider>
+    </Router>
   );
-};
+}
 
 export default App;

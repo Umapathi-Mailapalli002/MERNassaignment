@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TicketList from '../components/TicketList';
-import NewTicketForm from '../components/NewTicketForm';
+import NewTicketForm from '../components/TicketForm';
 
 function Tickets() {
   const [tickets, setTickets] = useState([]);
