@@ -1,38 +1,65 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { loginUser, logoutUser, getCurrentUser } from '../../api/api.js';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useState, useEffect } from "react";
+import { loginUser, logoutUser, getCurrentUser } from "../../api/api.js";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [user, setUser] = useState(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    return storedUser ? storedUser.data : null;
+  });
+  const [error, setError] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const navigate = useNavigate();
+  const isAuthenticated = !!user;
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
-      if (token) {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
         try {
-          const currentUser = await getCurrentUser(token);
-          setUser(currentUser); 
+          const currentUser = await getCurrentUser(storedToken);
+          console.log(currentUser);
+          setUser(currentUser);
         } catch (error) {
-          handleLogout(); 
+          console.error("Error fetching current user:", error);
+          handleLogout();
         }
+      } else {
+        handleLogout(); // No token found, logout
       }
     };
-
     fetchCurrentUser();
-  }, [token]);
+  }, []); // Only runs on token change
+
+  const getUserRole = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user?.data.user.role;
+  };
 
   const handleLogin = async (credentials) => {
     try {
-      const data = await loginUser(credentials);
-      setToken(data.token);
-      localStorage.setItem('token', data.token);
-      setUser(data.user);
-      navigate('/dashboard');
-    } catch (error) {
-      console.error("Login failed", error);
+      const userData = await loginUser(credentials);
+      const token = await userData?.data.accessToken;
+      console.log("Token received during login:", token); // Debugging line
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData);
+      setToken(token);
+      setError(null);
+
+      const role = getUserRole();
+      if (role === "Customer") {
+        navigate("/customer");
+      } else if (role === "CustomerServiceAgent") {
+        navigate("/agent");
+      } else if (role === "Admin") {
+        navigate("/admin-dashboard");
+      }
+    } catch (err) {
+      setError("Login failed. Please check your credentials.");
+      console.error("Login error:", err);
     }
   };
 
@@ -44,13 +71,16 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setUser(null);
       setToken(null);
-      localStorage.removeItem('token');
-      navigate('/login');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      navigate("/login");
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, handleLogin, handleLogout }}>
+    <AuthContext.Provider
+      value={{ user, token, handleLogin, error, handleLogout, isAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

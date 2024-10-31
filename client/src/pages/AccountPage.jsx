@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { getCurrentUser, updateAccount } from '../../api/api';
+import { getCurrentUser, updateAccount } from '../../api/api.js';
 import { AuthContext } from '../contextApi/AuthContext';
 
 const AccountPage = () => {
   const { token } = useContext(AuthContext);
   const [accountData, setAccountData] = useState({ username: '', email: '' });
 
-  React.useEffect(() => {
+  useEffect(() => {
     getCurrentUser(token).then(setAccountData).catch(console.error);
   }, [token]);
 

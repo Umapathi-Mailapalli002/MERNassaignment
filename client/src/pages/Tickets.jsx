@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TicketList from '../components/TicketList';
-import NewTicketForm from '../components/TicketForm';
+import TicketForm from '../components/TicketForm';
 
 function Tickets() {
   const [tickets, setTickets] = useState([]);
@@ -8,11 +8,12 @@ function Tickets() {
 
   useEffect(() => {
     const fetchTickets = async () => {
-      const data = [
-        { id: '001', title: 'Payment issue', status: 'Active', customerName: 'John Doe', lastUpdated: '2024-10-01' },
-        { id: '002', title: 'Login issue', status: 'Pending', customerName: 'Jane Smith', lastUpdated: '2024-10-05' },
-      ];
-      setTickets(data);
+      try {
+        const ticketsData = await getAllTickets(token);
+        setTickets(ticketsData.data);
+      } catch (error) {
+        console.error("Error fetching tickets:", error);
+      }
     };
     fetchTickets();
   }, []);
@@ -28,7 +29,7 @@ function Tickets() {
         </button>
       </div>
 
-      {showNewTicketForm && <NewTicketForm />}
+      {showNewTicketForm && <TicketForm />}
 
       <TicketList tickets={tickets} />
     </div>
