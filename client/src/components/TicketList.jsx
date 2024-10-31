@@ -17,13 +17,13 @@ function TicketList({ tickets }) {
             <th className="py-2 px-4 border-b">Ticket ID</th>
             <th className="py-2 px-4 border-b">Title</th>
             <th className="py-2 px-4 border-b">Status</th>
-            <th className="py-2 px-4 border-b">Customer Name</th>
+            <th className="py-2 px-4 border-b">Name</th>
             <th className="py-2 px-4 border-b">Last Updated</th>
           </tr>
         </thead>
         <tbody>
           {tickets.map((ticket) => (
-            <tr key={ticket._id} className="hover:bg-gray-100" onClick={() => handleRowClick(ticket._id)}> {/* Add click handler */}
+            <tr key={ticket._id} className="hover:bg-gray-100 text-center" onClick={() => handleRowClick(ticket._id)}> {/* Add click handler */}
               <td className="py-2 px-4 border-b">{ticket._id}</td>
               <td className="py-2 px-4 border-b">{ticket.title}</td>
               <td className="py-2 px-4 border-b text-center">
