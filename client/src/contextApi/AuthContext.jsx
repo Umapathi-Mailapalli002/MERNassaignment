@@ -27,11 +27,11 @@ export const AuthProvider = ({ children }) => {
           handleLogout();
         }
       } else {
-        handleLogout(); // No token found, logout
+        handleLogout(); 
       }
     };
     fetchCurrentUser();
-  }, []); // Only runs on token change
+  }, []); 
 
   const getUserRole = () => {
     const user = JSON.parse(localStorage.getItem("user"));

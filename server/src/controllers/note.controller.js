@@ -35,7 +35,7 @@ const getNotesForTicket = asyncHandler(async (req, res) => {
     const { ticketId } = req.params;
     const notes = await Note.find({ ticket: ticketId }).populate("addedBy", "username");
 
-    if (!notes.length) {
+    if (!notes) {
         throw new ApiError(404, "No notes found for this ticket");
     }
 

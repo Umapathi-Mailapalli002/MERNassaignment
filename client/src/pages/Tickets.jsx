@@ -9,18 +9,18 @@ function Tickets() {
   const [showNewTicketForm, setShowNewTicketForm] = useState(false);
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        const ticketsData = await getAllTickets(token);
-        console.log(ticketsData.data)
-        setTickets(ticketsData.data);
-      } catch (error) {
-        console.error("Error fetching tickets:", error);
-      }
-    };
+    
     fetchTickets();
   }, []);
-
+  const fetchTickets = async () => {
+    try {
+      const ticketsData = await getAllTickets(token);
+      setTickets(ticketsData.data);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
+  fetchTickets();
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">

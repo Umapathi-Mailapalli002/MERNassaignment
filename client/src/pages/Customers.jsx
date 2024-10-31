@@ -35,7 +35,7 @@ function Customers() {
         </thead>
         <tbody>
           {customers.map((customer) => (
-            <tr key={customer._id} className="hover:bg-gray-100">
+            <tr key={customer._id} className="hover:bg-gray-100 text-center">
               <td className="py-2 px-4 border-b">{customer._id}</td>
               <td className="py-2 px-4 border-b">{customer.username}</td>
               <td className="py-2 px-4 border-b">{customer.email}</td>

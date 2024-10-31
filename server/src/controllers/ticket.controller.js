@@ -41,9 +41,9 @@ const getMyTickets = asyncHandler(async(req, res) => {
         .json(new ApiResponse(200, tickets, "Tickets retrieved successfully"));
 })
 const getTicket = asyncHandler(async(req, res) => {
-    const ticketId = req.params.ticketId;
-    const tickets = await Ticket.findById(ticketId);
-    if (!tickets.length) {
+    const {ticketId} = req.params;
+    const tickets = await Ticket.findById({_id: ticketId});
+    if (!tickets) {
         throw new ApiError(404, "No tickets found");
     }
     return res

@@ -216,7 +216,7 @@ export const getTicketById = async (ticketId, token) => {
 
 export const updateTicketStatus = async (token, ticketId, statusData) => {
   try {
-    const res = await axios.patch(`${TICKETS_API_BASE_URL}${GET_TICKET_URL}/${ticketId}${UPDATE_TICKET_STATUS_URL}`, statusData, authHeaders(token));
+    const res = await axios.patch(`${TICKETS_API_BASE_URL}/${ticketId}${UPDATE_TICKET_STATUS_URL}`, statusData, authHeaders(token));
     return res.data;
   } catch (error) {
     console.log("Error on updating ticket status", error);
@@ -227,7 +227,7 @@ export const updateTicketStatus = async (token, ticketId, statusData) => {
 // Note Methods
 export const addNote = async (token, ticketId, noteData) => {
   try {
-    const res = await axios.post(`${NOTES_API_BASE_URL}${CREATE_NOTE_URL}`, noteData, authHeaders(token));
+    const res = await axios.post(`${NOTES_API_BASE_URL}/${ticketId}${CREATE_NOTE_URL}`, noteData, authHeaders(token));
     return res.data;
   } catch (error) {
     console.log("Error on adding note", error);
@@ -237,7 +237,7 @@ export const addNote = async (token, ticketId, noteData) => {
 
 export const getNotesForTicket = async (token, ticketId) => {
   try {
-    const res = await axios.get(`${NOTES_API_BASE_URL}${GET_ALL_NOTES_URL}`, authHeaders(token));
+    const res = await axios.get(`${NOTES_API_BASE_URL}/${ticketId}${GET_ALL_NOTES_URL}`, authHeaders(token));
     return res.data;
   } catch (error) {
     console.log("Error on fetching notes for ticket", error);

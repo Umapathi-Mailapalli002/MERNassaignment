@@ -1,4 +1,3 @@
-// /components/NoteList.jsx
 import React from 'react';
 
 const NoteList = ({ notes }) => {
