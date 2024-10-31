@@ -1,17 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../contextApi/AuthContext';
+import {getAllTickets,  getAllUsers } from '../../api/api';
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
-
+  const { token } = useContext(AuthContext);
+  const [tickets, setTickets] = useState([]);
   useEffect(() => {
     const fetchCustomers = async () => {
-      const data = [
-        { id: 'C001', name: 'John Doe', email: 'john@example.com', tickets: 5 },
-        { id: 'C002', name: 'Jane Smith', email: 'jane@example.com', tickets: 3 },
-      ];
-      setCustomers(data);
+      try {
+        const customersData = await getAllUsers(token);
+        console.log(customersData)
+        setCustomers(customersData.data);
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+      }
     };
-    fetchCustomers();
+    const fetchTickets = async () => {
+      try {
+        const ticketsData = await getAllTickets(token);
+        setTickets(ticketsData.data);
+      } catch (error) {
+        console.error("Error fetching tickets:", error);
+      }
+    };
+    if (token) {
+      fetchCustomers();
+      fetchTickets();
+    }
   }, []);
 
   return (
@@ -28,11 +44,11 @@ function Customers() {
         </thead>
         <tbody>
           {customers.map((customer) => (
-            <tr key={customer.id} className="hover:bg-gray-100">
-              <td className="py-2 px-4 border-b">{customer.id}</td>
-              <td className="py-2 px-4 border-b">{customer.name}</td>
+            <tr key={customer._id} className="hover:bg-gray-100">
+              <td className="py-2 px-4 border-b">{customer._id}</td>
+              <td className="py-2 px-4 border-b">{customer.username}</td>
               <td className="py-2 px-4 border-b">{customer.email}</td>
-              <td className="py-2 px-4 border-b text-center">{customer.tickets}</td>
+              <td className="py-2 px-4 border-b text-center">{customer.tickets.username}</td>
             </tr>
           ))}
         </tbody>

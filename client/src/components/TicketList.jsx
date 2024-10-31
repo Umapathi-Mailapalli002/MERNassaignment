@@ -15,8 +15,8 @@ function TicketList({ tickets }) {
           </thead>
           <tbody>
             {tickets.map((ticket) => (
-              <tr key={ticket.id} className="hover:bg-gray-100">
-                <td className="py-2 px-4 border-b">{ticket.id}</td>
+              <tr key={ticket._id} className="hover:bg-gray-100">
+                <td className="py-2 px-4 border-b">{ticket._id}</td>
                 <td className="py-2 px-4 border-b">{ticket.title}</td>
                 <td className="py-2 px-4 border-b text-center">
                   <span className={`px-2 py-1 rounded ${
@@ -27,8 +27,15 @@ function TicketList({ tickets }) {
                     {ticket.status}
                   </span>
                 </td>
-                <td className="py-2 px-4 border-b">{ticket.customerName}</td>
-                <td className="py-2 px-4 border-b">{ticket.lastUpdated}</td>
+                <td className="py-2 px-4 border-b">{ticket.user.username}</td>
+                <td className="py-2 px-4 border-b">{new Date(ticket.lastUpdatedOn).toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  })}</td>
               </tr>
             ))}
           </tbody>

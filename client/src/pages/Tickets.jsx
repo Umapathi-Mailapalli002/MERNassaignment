@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TicketList from '../components/TicketList';
 import TicketForm from '../components/TicketForm';
-
+import { AuthContext } from '../contextApi/AuthContext';
+import { getAllTickets } from '../../api/api';
 function Tickets() {
+  const { token } = useContext(AuthContext);
   const [tickets, setTickets] = useState([]);
   const [showNewTicketForm, setShowNewTicketForm] = useState(false);
 
@@ -10,6 +12,7 @@ function Tickets() {
     const fetchTickets = async () => {
       try {
         const ticketsData = await getAllTickets(token);
+        console.log(ticketsData.data)
         setTickets(ticketsData.data);
       } catch (error) {
         console.error("Error fetching tickets:", error);
