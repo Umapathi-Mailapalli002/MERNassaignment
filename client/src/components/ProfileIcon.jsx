@@ -22,7 +22,7 @@ const ProfileIcon = () => {
   return (
     <div className="absolute right-5 top-7 inline-block text-left ">
       <button onClick={toggleMenu} className="size-12 flex justify-center items-center bg-red-300 rounded-full">
-        <span className="size-12 text-2xl rounded-full flex justify-center items-center font-semibold text-gray-800">{user?.avatar}</span>
+        <span className="size-12 text-2xl rounded-full flex justify-center items-center font-semibold text-gray-800">{user?.avatar.length == 1 ? user?.avatar : "P"}</span>
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
